@@ -1,0 +1,29 @@
+* it is  a good habit to keep static values like baseUrl in application.properties
+* we can access these values by using "@Value(&{ValueVariableInApplication.properties})"
+* Advantage of using application.properties is that while running the jar file we can edit properties like :
+                "java -jar -DbaseUrl="newValue" xyz.jar"
+
+* we can use modal.addAttribute to display a message on the web page. This is one more thing that can be used instead of session
+
+*   @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)     // this is to get the id(basically the primary key) while doing save() otherwise it will return 0
+    private int id;
+
+* Define Finder(FindBy and FindAll) methods in repository for various mapping requests in java
+* It can only take at most 2 parameters
+* We dont need to implement the FindBy methods - it is automatically done during run time
+
+* In RubyOnRails, we dont even need to define them. They are dynamically generated there.
+
+* To have where clauses incorporated in the method we use @Query (for JPA Query Language):
+            @Query("select p from Person p where page> :p1 and p.age< :p2")
+            public Person methodName(@Param("p1") int min, @Param("p2") int max)
+        @Param for Parameters passed in query
+    On RUN-TIME, this JPA query is converted into SQL Query.
+    JPA doesn't query tables like SQL but it queries the Java Class mapped to the table.
+
+* Jpa throws one Exception : DataAccessException - which is the root exception. It is thrown by all Database classes in Spring.
+    We dont need to write try catch for this. Spring wraps all the exceptions itself into Data Access Exception.
+    Otherwise in Java, we need to write try catch for everything related to DB.
+
+* use @Transactional in Service class only (good practice) for synchronous executions of functions like withdraw() where order of execution of statements matter.

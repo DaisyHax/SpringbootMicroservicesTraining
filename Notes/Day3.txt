@@ -1,0 +1,67 @@
+* ZUUL to be added in spring dependency for cloud routing - for eg getting jquery script in index.jsp
+
+* to have a react app for UI, add its bundled rect-app.js file in the script tag of index.jsp
+
+* when service is down -> we follow a circuit breaker pattern ( @EnableCircuitBreaker in SpringBootApplication)
+* add 2 dependencies -> 1.spring-boot-starter-actuator
+                    and 2.spring-cloud-starter-netflix-hystrix
+* Add @HystrixCommand(FallbackMethod="checkForPalindromeBackup")  in the post mapping for the service that may go down eg:Palindrome in controller.
+
+* The Hystrix tries getting the normal method 19 times even if tis going to backup method, 20th time it only goes to backup method by itself
+
+* @HystrixCommand(fallbackMethod="checkForPalindromeBackup", commandProperties={
+              @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value="6000")
+      })
+
+      This is for making the Hystrix wait at least 6 seconds before going to the backup method because the service loading may also be slow and not just
+      temporarily down.
+      In the code we have added thread.sleep(4000) to mske it slow for now eg:in day03anagram -> anagram.java
+
+
+* Actuator dependency : Manage a service externally
+* We can add actuator configuration in ui application.properties
+* we can go to localhost:9000/actuator to see all available options eg:health, mappings etc.
+
+
+
+* Netflix Hysterix Dashboard - USED mainly for monitoring the circuit breaker flow
+* add its dependency
+* Add @EnableHystrixDashboard in uiApplication.java
+* Open http://localhost:8080/hystrix
+* Add http://localhost:9000/actuator/hytrix.stream in the textbox below and hit "Monitor Stream" Button
+* Then go to http://localhost:8080 where your uiApplicastion is running and play with palindrome check and anagram buttons
+
+
+* follow config_server.md from https://github.com/prabhu-durasoft/Mar-12-14-2019/blob/master/config_server.md
+
+
+* -------------------------NOW We will see about the different environments: QA, Prod, Dev, Test etc -------------------------------------------
+* [Anagram]
+  [Palindrome]
+  [UI]
+
+  [ConfigServer]
+    anagram-app.properties                                          //by default = native
+    anagram-app-test.properties                                     //test
+    anagram-app-production.properties                               //production
+
+    palindrome-app.properties                                       //by default = native
+    palindrome-app-test.properties                                  //test
+    palindrome-app-production.properties                            //production
+
+    ui-app.properties                                               //by default = native
+    ui-app-test.properties                                          //test
+    ui-app-production.properties                                    //production
+
+* java -jar -Dspring.profiles.active=native <your jar>              // we just need to change the spring.profiles.active
+  as test or production
+* By changing the profile to test here, it will itself take the properties from palindrome-app-test.properties,
+  ui-app-test.properties, anagram-app-test.properties
+
+* Server config provides @EnableConfigurationProperties() //value="refresh"
+    Add this to the anagramController
+    Every service has a "refresh" endpoint
+    using this it will reload all the beans again
+
+
+

@@ -1,0 +1,72 @@
+SPRINGBOOT MICROSERVICES DAY1
+
+
+https://github.com/prabhu-durasoft/Mar-12-14-2019
+
+SPRING - Plain Ordinary Java Objects (POJO) Framework
+
+Class Account{
+	accountNumber, balance;
+
+	void deposit(amount){
+	}
+
+	void withdraw(amount){
+	}
+
+	void transferFund(to, amount){
+	}
+
+}
+
+* Pool of Account Objects ( For making the performance better)
+* Security Functionality to transferFund method
+* Transaction service for transferFund
+* These are called enterprise programs ( increasing functionality needs over time)
+
+* Now, Enterprise Java Beans(EJB) was introduced
+* It gives us a CONTAINER (JBoss, WebLogic, WebSphere) - It is like s box in which we can put all our code
+* We can’t just give it classes - it has rules - provide Interfaces
+* Interface Account{ deposit, withdraw, transferFund }
+* Interface AccountHome extends Home{}
+* classAccountBean implements EntityBean{}
+* Now this class has to follow rules:
+    * No constructors
+    * No final variables
+    * No static methods
+    * No threading code
+* Now create ebb-jar.xml (AccountBean (Transaction, Security, Object Pooling))
+* This is now bundled in Account.jar
+* Now drop them inside container
+* This makes code very difficult to read and complicated
+
+* So now Spring Framework comes - which is a light-weight container which gives you all the enterprise services WITHOUT changing the design of the code
+* It is a POJO Framework
+* Having IDEs made getting jar files difficult
+* So now SpringBoot comes into picture
+
+* Spring BOOT is a framework that helps you BOOTSTRAP spring Applications
+* If you want to develop something very fast, and push it to production in the JVM Stack, Spring Boot is the leader
+
+
+
+* Create a day01 springboot application
+* create a hello controller
+* A GET request method
+* A POST request method
+* On running the application : we see "Initializing Servlet 'dispatcherServlet'". This is the heart of SpringBoot
+
+
+* To create a jar in intelliJ, "maven clean install"
+* after creating the jar of application using maven build
+* in terminal : "java -jar target/day01-0.0.1-SNAPSHOT.jar"
+* to change the port for same appln that is already running on a port: "java -jar -Dserver.port=8082 target/day01-0.0.1-SNAPSHOT.jar"
+
+
+*jackson-....... maven libraries responsible for resulting an object as JSON in result
+
+* @RestController = @Controller + @ResponseBody
+* @Controller actually returns view information that is passed to ViewResolver. Then viewResolver returns the view ( some jsp file in webapp acc to what
+    is returned). eg: return "start" -> webapp/start.jsp
+* We need to add configurations for the view Resolver and create a bean
+*
