@@ -64,4 +64,12 @@
     using this it will reload all the beans again
 
 
+* Integration Testing by autowiring TestRestTemplate
+* Unit testing using Spring Runner
+* @WebMvcTest(Controller.class) and autowire MockMvc
+* @TestConfiguration, @TestComponent
+* Added UnitTesting Application in the github https://github.com/prabhu-durasoft/Mar-12-14-2019
+
+
+
 
